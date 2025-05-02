@@ -1,34 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { AddNote } from "./components/AddNote"
+import { NoteItem } from "./components/NoteItem"
+import { useNotesStore } from "./store/notes-store"
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const notes = useNotesStore(state => state.notes)
+  
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="flex flex-col justify-between bg-slate-900 h-svh w-full">
+      <div className="flex justify-between p-3 bg-slate-800">
+        <h1 className="font-semibold text-xl text-slate-500">Notes.ly</h1>
+        <div className="flex gap-2">
+          <button className="px-2 py-1 text-sm shadow-md rounded-md bg-blue-900 text-slate-400 cursor-pointer">Fetch Notes</button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
+          {
+            notes.map(item => <NoteItem key={item} note={item}/>)
+          }
+        </div>
+        <AddNote/>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
